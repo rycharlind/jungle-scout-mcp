@@ -10,6 +10,7 @@ from mcp.server import FastMCP
 from config.env import get_api_key
 from api.jungle_scout import JungleScoutAPI
 from tools.handlers import handle_call_tool
+from typing import List, Optional
 
 # Initialize API client
 api_client = JungleScoutAPI(get_api_key())
@@ -21,63 +22,67 @@ mcp = FastMCP("jungle-scout-mcp")
 
 
 @mcp.tool()
-async def search_keywords(keyword: str, marketplace: str = "US", page: int = 1, page_size: int = 20):
-    """Search for keywords and get search volume, competition, and other metrics"""
-    return await handle_call_tool("search_keywords", {
-        "keyword": keyword,
-        "marketplace": marketplace,
-        "page": page,
-        "page_size": page_size
-    }, api_client)
-
-
-@mcp.tool()
-async def search_products(query: str, marketplace: str = "US", page: int = 1, page_size: int = 20):
-    """Search for products on Amazon and get product data"""
-    return await handle_call_tool("search_products", {
-        "query": query,
-        "marketplace": marketplace,
-        "page": page,
-        "page_size": page_size
-    }, api_client)
-
-
-@mcp.tool()
-async def get_product_details(asin: str, marketplace: str = "US"):
-    """Get detailed product information by ASIN"""
-    return await handle_call_tool("get_product_details", {
-        "asin": asin,
-        "marketplace": marketplace
-    }, api_client)
-
-
-@mcp.tool()
-async def analyze_keyword(keyword: str, marketplace: str = "US"):
-    """Analyze keyword metrics including search volume, competition, and difficulty"""
-    return await handle_call_tool("analyze_keyword", {
-        "keyword": keyword,
-        "marketplace": marketplace
-    }, api_client)
-
-
-@mcp.tool()
-async def search_categories(query: str, marketplace: str = "US"):
-    """Search for product categories on Amazon"""
-    return await handle_call_tool("search_categories", {
-        "query": query,
-        "marketplace": marketplace
-    }, api_client)
-
-
-@mcp.tool()
-async def get_competitor_analysis(asin: str, marketplace: str = "US"):
-    """Get competitor analysis for a specific product"""
-    return await handle_call_tool("get_competitor_analysis", {
-        "asin": asin,
-        "marketplace": marketplace
-    }, api_client)
+async def search_products(
+    marketplace: str = "US",
+    page: int = 1,
+    page_size: int = 50,
+    product_tiers: Optional[List[str]] = None,
+    seller_types: Optional[List[str]] = None,
+    include_keywords: Optional[List[str]] = None,
+    exclude_keywords: Optional[List[str]] = None,
+    exclude_top_brands: Optional[bool] = None,
+    exclude_unavailable_products: Optional[bool] = None,
+    min_price: Optional[float] = None,
+    max_price: Optional[float] = None,
+    min_net: Optional[float] = None,
+    max_net: Optional[float] = None,
+    min_rank: Optional[int] = None,
+    max_rank: Optional[int] = None,
+    min_sales: Optional[int] = None,
+    max_sales: Optional[int] = None,
+    min_revenue: Optional[float] = None,
+    max_revenue: Optional[float] = None,
+    min_reviews: Optional[int] = None,
+    max_reviews: Optional[int] = None,
+    min_rating: Optional[float] = None,
+    max_rating: Optional[float] = None,
+    min_weight: Optional[float] = None,
+    max_weight: Optional[float] = None,
+):
+    """Search for products on Amazon with advanced filtering options including product tiers, seller types, keyword inclusion/exclusion, price ranges, sales metrics, review metrics, and weight ranges"""
+    return await handle_call_tool(
+        "search_products",
+        {
+            "marketplace": marketplace,
+            "page": page,
+            "page_size": page_size,
+            "product_tiers": product_tiers,
+            "seller_types": seller_types,
+            "include_keywords": include_keywords,
+            "exclude_keywords": exclude_keywords,
+            "exclude_top_brands": exclude_top_brands,
+            "exclude_unavailable_products": exclude_unavailable_products,
+            "min_price": min_price,
+            "max_price": max_price,
+            "min_net": min_net,
+            "max_net": max_net,
+            "min_rank": min_rank,
+            "max_rank": max_rank,
+            "min_sales": min_sales,
+            "max_sales": max_sales,
+            "min_revenue": min_revenue,
+            "max_revenue": max_revenue,
+            "min_reviews": min_reviews,
+            "max_reviews": max_reviews,
+            "min_rating": min_rating,
+            "max_rating": max_rating,
+            "min_weight": min_weight,
+            "max_weight": max_weight,
+        },
+        api_client,
+    )
 
 
 if __name__ == "__main__":
     # Initialize and run the server
-    mcp.run(transport='stdio')
+    mcp.run(transport="stdio")
