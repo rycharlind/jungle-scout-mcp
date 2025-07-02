@@ -1,6 +1,7 @@
 import httpx
 from typing import Optional, Dict, List
 import json
+from config.constants import PRODUCT_SEARCH_LIMIT
 
 JUNGLE_SCOUT_API_BASE = "https://developer.junglescout.com"
 
@@ -113,7 +114,7 @@ class JungleScoutAPI:
         self,
         marketplace: str = "us",
         page: int = 1,
-        page_size: int = 50,
+        page_size: int = PRODUCT_SEARCH_LIMIT,
         product_tiers: Optional[List[str]] = None,
         seller_types: Optional[List[str]] = None,
         include_keywords: Optional[List[str]] = None,
@@ -142,7 +143,7 @@ class JungleScoutAPI:
         
         # Parse and validate parameters
         page = self._parse_numeric_param(page) or 1
-        page_size = self._parse_numeric_param(page_size) or 50
+        page_size = self._parse_numeric_param(page_size) or PRODUCT_SEARCH_LIMIT
         
         # Parse list parameters
         product_tiers = self._parse_list_param(product_tiers)

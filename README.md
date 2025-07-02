@@ -113,7 +113,7 @@ Search for products on Amazon and get product data.
 - `query` (required): Product search query
 - `marketplace` (optional): Marketplace code. Default: US
 - `page` (optional): Page number for pagination. Default: 1
-- `page_size` (optional): Number of results per page. Default: 20
+- Note: Results are limited to 5 products per search
 
 #### 3. get_product_details
 Get detailed product information by ASIN.
@@ -162,8 +162,7 @@ Here are some example tool calls you can make:
   "name": "search_products",
   "arguments": {
     "query": "bluetooth speaker",
-    "marketplace": "US",
-    "page_size": 10
+    "marketplace": "US"
   }
 }
 ```

@@ -8,6 +8,7 @@ while keeping the server modules separated.
 
 from mcp.server import FastMCP
 from config.env import get_api_key
+from config.constants import PRODUCT_SEARCH_LIMIT
 from api.jungle_scout import JungleScoutAPI
 from tools.handlers import handle_call_tool
 from typing import List, Optional
@@ -25,7 +26,6 @@ mcp = FastMCP("jungle-scout-mcp")
 async def search_products(
     marketplace: str = "US",
     page: int = 1,
-    page_size: int = 50,
     product_tiers: Optional[List[str]] = None,
     seller_types: Optional[List[str]] = None,
     include_keywords: Optional[List[str]] = None,
@@ -55,7 +55,7 @@ async def search_products(
         {
             "marketplace": marketplace,
             "page": page,
-            "page_size": page_size,
+            "page_size": PRODUCT_SEARCH_LIMIT,
             "product_tiers": product_tiers,
             "seller_types": seller_types,
             "include_keywords": include_keywords,

@@ -16,7 +16,6 @@ async def test_request():
         "page": 1,
         "max_price": "100",
         "min_price": "20", 
-        "page_size": 50,
         "min_rating": "4.0",
         "marketplace": "US",
         "min_reviews": "100",
@@ -38,7 +37,6 @@ async def test_request():
         result = await api_client.search_products(
             marketplace=test_params["marketplace"],
             page=test_params["page"],
-            page_size=test_params["page_size"],
             max_price=test_params["max_price"],
             min_price=test_params["min_price"],
             min_rating=test_params["min_rating"],

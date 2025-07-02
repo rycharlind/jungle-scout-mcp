@@ -1,0 +1,10 @@
+Search for products on Amazon US marketplace that are:
+FBA sellers only
+Price range between $20-100
+Minimum 4-star rating
+At least 100 reviews
+Must include the word 'organic' in the listing
+Exclude top brands
+
+Only use tools within the juncle-scout-mcp. 
+If you cannot get the answer from the jungle-scout-mcp, respond with "Cannot answer".

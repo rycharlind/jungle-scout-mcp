@@ -8,7 +8,6 @@ class ProductSearchRequest(BaseModel):
         description="Marketplace (US, CA, UK, DE, FR, IT, ES, JP, IN, MX, AU, BR)",
     )
     page: int = Field(default=1, description="Page number for pagination")
-    page_size: int = Field(default=50, description="Number of results per page")
 
     # Product tiers and seller types
     product_tiers: Optional[List[str]] = Field(
@@ -122,7 +121,7 @@ class ProductSearchRequest(BaseModel):
             return "us"
         return v.lower()
 
-    @field_validator('page', 'page_size', 'min_rank', 'max_rank', 'min_sales', 'max_sales', 'min_reviews', 'max_reviews')
+    @field_validator('page', 'min_rank', 'max_rank', 'min_sales', 'max_sales', 'min_reviews', 'max_reviews')
     @classmethod
     def parse_int_fields(cls, v):
         """Parse integer fields that might come as strings"""

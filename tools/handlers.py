@@ -11,6 +11,7 @@ from models.requests import (
 
 )
 from api.jungle_scout import JungleScoutAPI
+from config.constants import PRODUCT_SEARCH_LIMIT
 
 
 async def handle_call_tool(
@@ -23,7 +24,7 @@ async def handle_call_tool(
             result = await api_client.search_products(
                 marketplace=request.marketplace,
                 page=request.page,
-                page_size=request.page_size,
+                page_size=PRODUCT_SEARCH_LIMIT,
                 product_tiers=request.product_tiers,
                 seller_types=request.seller_types,
                 include_keywords=request.include_keywords,
