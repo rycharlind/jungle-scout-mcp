@@ -6,10 +6,7 @@ from mcp.types import (
     TextContent,
 )
 
-from models.requests import (
-    ProductSearchRequest,
-
-)
+from models.requests.product_search import ProductSearchRequest
 from api.jungle_scout import JungleScoutAPI
 from config.constants import PRODUCT_SEARCH_LIMIT
 
