@@ -1,61 +1,39 @@
+from typing import Dict, Any
+from mcp.types import CallToolResult, TextContent
 import json
-from typing import Any, Dict
+import traceback
 
-from mcp.types import (
-    CallToolResult,
-    TextContent,
-)
-
-from models.requests.product_search import ProductSearchRequest
 from api.jungle_scout import JungleScoutAPI
-from config.constants import PRODUCT_SEARCH_LIMIT
 
 
-async def handle_call_tool(
-    name: str, arguments: Dict[str, Any], api_client: JungleScoutAPI
-) -> CallToolResult:
-    """Handle tool calls"""
-    try:
-        if name == "search_products":
-            request = ProductSearchRequest(**arguments)
-            result = await api_client.search_products(
-                marketplace=request.marketplace,
-                page=request.page,
-                page_size=PRODUCT_SEARCH_LIMIT,
-                product_tiers=request.product_tiers,
-                seller_types=request.seller_types,
-                include_keywords=request.include_keywords,
-                exclude_keywords=request.exclude_keywords,
-                exclude_top_brands=request.exclude_top_brands,
-                exclude_unavailable_products=request.exclude_unavailable_products,
-                min_price=request.min_price,
-                max_price=request.max_price,
-                min_net=request.min_net,
-                max_net=request.max_net,
-                min_rank=request.min_rank,
-                max_rank=request.max_rank,
-                min_sales=request.min_sales,
-                max_sales=request.max_sales,
-                min_revenue=request.min_revenue,
-                max_revenue=request.max_revenue,
-                min_reviews=request.min_reviews,
-                max_reviews=request.max_reviews,
-                min_rating=request.min_rating,
-                max_rating=request.max_rating,
-                min_weight=request.min_weight,
-                max_weight=request.max_weight,
-            )
+def create_tool_handler(request_model_class, api_method_name: str, api_client: JungleScoutAPI, additional_params: Dict[str, Any] = None):
+    """Generic factory function to create tool handlers with Pydantic models"""
+
+    async def tool_handler(**kwargs):
+        """Generic tool handler that uses Pydantic models for validation and API calls"""
+        try:
+            # Create request model from kwargs - Pydantic will handle validation
+            request = request_model_class(**kwargs)
+
+            # Get all request parameters
+            params = request.model_dump()
+
+            # Add any additional parameters (like page_size)
+            if additional_params:
+                params.update(additional_params)
+
+            # Call the appropriate API method
+            api_method = getattr(api_client, api_method_name)
+            result = await api_method(**params)
+
             return CallToolResult(
                 content=[TextContent(type="text", text=json.dumps(result, indent=2))]
             )
+        except Exception as e:
+            # Return error in a format that MCP can handle
+            error_message = f"Error: {str(e)}\n\nTraceback:\n{traceback.format_exc()}"
+            return CallToolResult(
+                content=[TextContent(type="text", text=error_message)]
+            )
 
-        else:
-            raise ValueError(f"Unknown tool: {name}")
-
-    except Exception as e:
-        return CallToolResult(
-            content=[
-                TextContent(type="text", text=json.dumps({"error": str(e)}, indent=2))
-            ],
-            isError=True,
-        )
+    return tool_handler

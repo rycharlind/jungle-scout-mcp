@@ -221,6 +221,10 @@ class JungleScoutAPI:
         if max_weight is not None:
             attributes["max_weight"] = max_weight
 
+        # If no attributes are provided, add a default search to avoid API error
+        if not attributes:
+            attributes["include_keywords"] = ["product"]
+
         post_data = {
             "data": {
                 "type": "product_database_query",
