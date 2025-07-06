@@ -10,5 +10,5 @@ At least 100 reviews
 Must include the word 'organic' in the listing
 Exclude top brands
 
-Only use tools within the juncle-scout-mcp. 
+Only use tools within the jungle-scout-mcp. 
 If you cannot get the answer from the jungle-scout-mcp, respond with "I'm not sure".
