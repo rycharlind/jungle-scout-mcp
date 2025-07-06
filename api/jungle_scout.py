@@ -7,7 +7,7 @@ JUNGLE_SCOUT_API_BASE = "https://developer.junglescout.com"
 
 
 class JungleScoutAPI:
-    def __init__(self, api_key: str, key_id: str = "inndevers1"):
+    def __init__(self, api_key: str, key_id: str):
         self.api_key = api_key
         self.key_id = key_id
         self.base_url = JUNGLE_SCOUT_API_BASE

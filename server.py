@@ -7,12 +7,12 @@ while keeping the server modules separated.
 """
 
 from mcp.server import FastMCP
-from config.env import get_api_key
+from config.env import get_api_key, get_api_key_id
 from api.jungle_scout import JungleScoutAPI
 from tools.product_search import create_search_products_tool
 
 # Initialize API client
-api_client = JungleScoutAPI(get_api_key())
+api_client = JungleScoutAPI(get_api_key(), get_api_key_id())
 
 # Create global FastMCP instance for MCP installer
 mcp = FastMCP("jungle-scout-mcp")

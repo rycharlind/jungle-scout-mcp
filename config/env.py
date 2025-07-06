@@ -11,3 +11,11 @@ def get_api_key() -> str:
     if not api_key:
         raise ValueError("JUNGLE_SCOUT_API_KEY environment variable is required")
     return api_key
+
+
+def get_api_key_id() -> str:
+    """Get the Jungle Scout API key ID from environment variables"""
+    api_key_id = os.getenv("JUNGLE_SCOUT_API_KEY_ID")
+    if not api_key_id:
+        raise ValueError("JUNGLE_SCOUT_API_KEY_ID environment variable is required")
+    return api_key_id
